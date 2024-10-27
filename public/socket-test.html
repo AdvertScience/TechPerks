@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <h1>Real-Time PM2 Logs</h1>
+    <button class="generate">geberate Content</button>
+    <script src="socket-io.js"></script>
+
+    <script>
+        // Connect to the Socket.IO server
+        const socket = io('techperks.advertscience.com', {
+            transports: ['websocket'], // Force WebSocket transport
+            secure: false
+        });
+
+        // Listen for 'log' events from the server
+        socket.on('connect', () => {
+            console.log('Connected to TechPerks');
+        });
+
+        $(".generate").on("click", function(){
+            socket.emit('generate-content', { 
+                user: '4MXQJdrZ6v',
+                company: '3GDN1mNeqP',
+                workflowId: '4MXQJdrZ6v',
+                input: 'Say Greetings to Kevin'
+            });
+        });
+
+        socket.on('server-response', (data) => {
+            console.log('Server response: ' + data.message);
+        });
+
+    </script>
+</body>
+</html>
